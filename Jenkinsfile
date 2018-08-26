@@ -6,9 +6,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_5_4') {
-                   echo 'hi im building'
-				   
-				   
+                   echo 'hi im building here'
                 }
             }
         }
