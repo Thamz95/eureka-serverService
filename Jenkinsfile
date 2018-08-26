@@ -1,22 +1,31 @@
 pipeline {
     agent any
-    tools { 
-        maven 'Maven 3_5_4' 
-        jdk 'jdk_8' 
-    }
+
     stages {
-        stage ('Initialize') {
+        stage ('Compile Stage') {
+
             steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                ''' 
+                withMaven(maven : 'maven_3_5_4') {
+                    sh 'mvn clean compile'
+                }
             }
         }
 
-        stage ('Build') {
+        stage ('Testing Stage') {
+
             steps {
-                sh 'mvn clean compile'
+                withMaven(maven : 'maven_3_5_4') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'maven_3_5_4') {
+                    sh 'mvn deploy'
+                }
             }
         }
     }
